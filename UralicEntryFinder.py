@@ -48,8 +48,8 @@ codes = {"hun":"Hungarian",
 "xas":"Kamas",
 "sel":"Selkup"}
 
-url = "http://uralonet.nytud.hu/search.cgi?locale=en_GB&submit=Search&rkn_BED_l=en&rkn_l=Ur&rkn_BED=fire&rkn_c=1" #example word: fire
-url_a = "http://uralonet.nytud.hu/search.cgi?locale=en_GB&submit=Search&rkn_BED_l=en&rkn_l=Ur&rkn_BED="
+url = "http://uralonet.nytud.hu/search.cgi?locale=en_GB&submit=Search&rkn_BED_l=en&rkn_l=%25&rkn_BED=fire&rkn_c=1" #example word: fire
+url_a = "http://uralonet.nytud.hu/search.cgi?locale=en_GB&submit=Search&rkn_BED_l=en&rkn_l=%25&rkn_BED="
 url_a_1 = "http://uralonet.nytud.hu/"
 url_b = "&rkn_c=1"
 
