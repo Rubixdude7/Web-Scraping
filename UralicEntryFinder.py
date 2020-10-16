@@ -57,7 +57,8 @@ from bs4 import BeautifulSoup as bs
 import requests
 
 while(True):
-	mylemma = None
+	mylemmas = []
+	entries = []
 	print("Enter a word:\t")
 	word = input()
 	if(word == ""):
@@ -68,19 +69,29 @@ while(True):
 	soup = bs(source,"lxml-xml")
 	matches = soup.find_all('a',class_ = "l")
 	for lemma in matches:
-		l = lemma.find("span",{"class":"bed","xml:lang":"en"})
-		if (l.text.rstrip() == word):
-			mylemma = lemma
-			break
+		l = lemma.find_all("span",{"class":"bed","xml:lang":"en"})
+		for e in l:
+			if (e.text.rstrip() == word):
+				mylemmas.append(lemma)
 	try:
-		entry = mylemma['href']
+		if(len(mylemmas) == 0):
+			raise KeyError
+		for e in mylemmas:
+			entries.append(e['href'])
 	except:
 		print("Entry not valid!")
 	else:
-		source2 = requests.get(url_a_1 + entry + "&locale=en_GB").text
-		soup2 = bs(source2,"lxml-xml")
-		match2 = soup2.find('div',class_ = "vergleich")
-		for key in codes:
-			if (match2.find("span",{"xml:lang":key}) is not None):
-				t = match2.find("span",{"xml:lang":key}).text.rstrip().lstrip()
-				print("%20s:	%s" % (codes[key],t))
+		for e in entries:
+			source2 = requests.get(url_a_1 + e + "&locale=en_GB").text
+			soup2 = bs(source2,"lxml-xml")
+			#
+			protoform = soup2.find('span',{"class":"ural5","xml:lang":"fiu"})
+			print("%20s:	*%s" % ("Proto-Form",protoform.text.rstrip().lstrip()))
+			#
+			match2 = soup2.find('div',class_ = "vergleich")
+			for key in codes:
+				if (match2.find("span",{"xml:lang":key}) is not None):
+					t = match2.find("span",{"xml:lang":key}).text.rstrip().lstrip()
+					print("%20s:	%s" % (codes[key],t))
+			if(e is not entries[-1]):
+				print("\n\n")
